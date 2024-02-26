@@ -1,0 +1,191 @@
+
+#include<iostream>
+#include<cassert>
+
+using namespace std;
+
+class Person
+{
+	string _name;
+	string _surname;
+	int _age;
+
+public:
+
+	Person(string name,string surname,int age)
+	{
+		_name = name;
+		_surname = surname;
+		_age = age;
+	}
+
+	void SetName(string name)
+	{
+		int len = name.size();
+
+		if (len < 3) assert(!"name should contain at least 3 symbols");
+
+		for (size_t i = 0; i < len; i++)
+		{
+			if (!((name[i] >= 65 && name[i] <= 90) || (name[i] >= 97 && name[i] <= 122)))
+				assert(!"name can only contain letters");
+		}
+
+		_name = name;
+	}
+
+	void SetSurname(string surname)
+	{
+		int len = surname.size();
+
+		if (len < 4) assert(!"surname should contain at least 4 symbols");
+
+		for (size_t i = 0; i < len; i++)
+		{
+			if (!((surname[i] >= 65 && surname[i] <= 90) || (surname[i] >= 97 && surname[i] <= 122)))
+				assert(!"surname can only contain letters");
+		}
+
+		_surname = surname;
+	}
+
+	void SetAge(int age)
+	{
+		if (age >= 18 && age <= 65)
+			_age = age;
+		else
+			assert(!"age less than 18 or more than 65 is not permitted");
+	}
+
+	string GetName() { return _name; }
+	string GetSurname() { return _surname; }
+	int GetAge() { return _age; }
+
+	void print()
+	{
+		cout << endl;
+		cout << "Name: " << _name << endl;
+		cout << "Surname: " << _surname << endl;
+		cout << "Age: " << _age << endl;
+
+	}
+};
+
+class Developer:public Person
+{
+	string _skill;
+	string _rank;
+	int _experience;
+
+public:
+
+	Developer(string name, string surname, int age,string skill,string rank,int experience):Person(name,surname,age)
+	{
+		SetSkills(skill);
+		SetRank(rank);
+		SetExperience(experience);
+
+	}
+
+	void SetSkills(string skill)
+	{
+		int len = skill.size();
+
+		if (len <= 0) assert(!"skill must be noted");
+		_skill = skill;
+	}
+
+	void SetRank(string rank)
+	{
+		int len = rank.size();
+		if (len < 4) assert(!"rank name must contain at least 4 symbols");
+
+		for (size_t i = 0; i < len; i++)
+			if (!((rank[i] >= 65 && rank[i] <= 90) || (rank[i] >= 97 && rank[i] <= 122)))
+				assert(!"rank name can only contain letters");
+		
+		_rank = rank;
+	}
+
+	void SetExperience(int experience)
+	{
+		if (experience >= 0)
+			_experience = experience;
+		else
+			assert(!"experience year can not negative");
+	}
+
+	string GetSkills() { return _skill; }
+	string GetRank() { return _rank; }
+	int GetExperience() { return _experience; }
+
+	void print()
+	{
+		Person::print();
+
+		cout << "Rank: " << _rank << endl;
+		cout << "Skills: " << _skill << endl;
+		cout << "Experince: " << _experience <<" years" << endl;
+	}
+
+};
+
+
+class Teacher: public Person
+{
+	string _subject;
+	int _examPoint;
+
+public:
+
+	Teacher(string name, string surname, int age,string subject,int point):Person(name,surname,age)
+	{
+		SetExamPoint(point);
+		SetSubject(subject);
+
+	}
+
+	void SetSubject(string subject)
+	{
+		int len = subject.size();
+		if (len < 4) assert(!"subject name must contain at least 4 symbols");
+
+		for (size_t i = 0; i < len; i++)
+			if (!((subject[i] >= 65 && subject[i] <= 90) || (subject[i] >= 97 && subject[i] <= 122)))
+				assert(!"subject name can only contain letters");
+
+		_subject = subject;
+	
+	}
+
+	void SetExamPoint(int point)
+	{
+		if (point > 100) assert(!"unacceptable point");
+		if (point < 50) assert(!"exam point is not enough");
+		_examPoint = point;
+		
+	}
+
+	string GetSubject() { return _subject; }
+	int GetExamPoint() { return _examPoint; }
+
+	void print()
+	{
+		Person::print();
+
+		cout << "Qulified Subject: " << _subject << endl;
+		cout << "Entrance exam Point: " << _examPoint << endl;
+	}
+};
+
+int main()
+{
+	Developer d1("Emily", "Puth", 25, "C#,C++,Java", "junior", 5);
+
+	Teacher t1("Tom", "Clark", 35, "English", 85);
+
+	d1.print();
+	t1.print();
+
+
+}

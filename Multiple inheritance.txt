@@ -1,0 +1,165 @@
+
+#include<iostream>
+#include<cassert>
+
+using namespace std;
+
+class Animal
+{
+	string* _name;
+	string* _livingEnvironment;
+	string* _nutritionType;
+
+public:
+	Animal(string name,string livingEnvironment,string nutritionType)
+	{
+		SetName(name);
+		SetLivingEnvironment(livingEnvironment);
+		SetNutritionType(nutritionType);
+	}
+
+	void SetName(string name)
+	{
+		int len = name.size();
+
+		if (len < 3) assert(!"name must contain at least 3 letters");
+
+		if (_name != nullptr) delete _name;
+		_name = new string(name);
+	}
+
+	void SetLivingEnvironment(string livingEnvironment)
+	{
+		int len = livingEnvironment.size();
+
+		if (len < 3) assert(!"living environment must contain at least 3 symbols");
+
+		if (_livingEnvironment != nullptr) delete _livingEnvironment;
+		_livingEnvironment = new string(livingEnvironment);
+	}
+
+	void SetNutritionType(string nutritionType)
+	{
+		int len = nutritionType.size();
+
+		if (len < 1) assert(!"nutrition type is empty");
+
+		if (_nutritionType != nullptr) delete _nutritionType;
+		_nutritionType = new string(nutritionType);
+	}
+
+	string GetName() { return *_name; }
+	string GetLivingEnvironment() { return *_livingEnvironment; }
+	string GetNutritionType() { return *_nutritionType; }
+
+	void print()
+	{
+		cout << endl;
+		cout << "name: " << *_name << endl;
+		cout << "Living Environment: " << *_livingEnvironment << endl;
+		cout << "Nutrition type: " << *_nutritionType << endl;
+	}
+	
+	~Animal()
+	{
+		if (_name != nullptr)
+		{
+			delete _name;
+			_name = nullptr;
+		}
+
+		if (_livingEnvironment != nullptr)
+		{
+			delete _livingEnvironment;
+			_livingEnvironment = nullptr;
+		}
+
+		if (_nutritionType != nullptr)
+		{
+			delete _nutritionType;
+			_nutritionType = nullptr;
+		}
+	}
+};
+
+class SwimmingAnimal
+{
+	string* _size;
+	string* _animalType;
+
+public:
+	SwimmingAnimal(string animalType,string size)
+	{
+		SetAnimalType(animalType);
+		SetSize(size);
+	}
+
+	void SetAnimalType(string animalType)
+	{
+		int len = animalType.size();
+		if (len < 1) assert(!"animal type is not given");
+
+		if (_animalType != nullptr) delete _animalType;
+		_animalType = new string(animalType);
+	}
+
+	void SetSize(string size)
+	{
+		int len = size.size();
+
+		if (len < 1) assert(!"size is empty");
+
+		if (_size != nullptr) delete _size;
+		_size = new string(size);
+	}
+
+	string GetSize() { return *_size; }
+	string GetAnimalType() { return *_animalType; }
+
+	void print()
+	{
+		cout << "animal Type: " << *_animalType << endl;
+		cout << "size: " << *_size << endl;
+	}
+
+	~SwimmingAnimal()
+	{
+		if (_size != __nullptr)
+		{
+			delete _size;
+			_size = nullptr;
+		}
+
+		if (_animalType != nullptr)
+		{
+			delete _animalType;
+			_animalType = nullptr;
+		}
+	}
+};
+
+class Whale:public Animal,public SwimmingAnimal
+{
+public:
+	Whale(string name, string animalType, string size, string livingEnvironment, string nutritionType):Animal(name,livingEnvironment,nutritionType),SwimmingAnimal(animalType,size)
+	{}
+
+	void print()
+	{
+		Animal::print();
+		SwimmingAnimal::print();
+	}
+
+	~Whale(){}
+	
+};
+
+
+int main()
+{
+	Whale w("lucy", "mammal", "20 meters", "ocean", "fish");
+	w.print();
+
+
+
+}

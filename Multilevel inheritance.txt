@@ -1,0 +1,200 @@
+
+#include<iostream>
+#include<cassert>
+#include<string>
+using namespace std;
+
+class GrandMother
+{
+public:
+	int _birth_year;
+	string* _name=nullptr;
+	string* _surname=nullptr;
+
+	GrandMother(string name,string surname,int year)
+	{
+		SetName(name);
+		SetSurname(surname);
+		SetYear(year);
+	}
+
+	void SetName(string name)
+	{
+		int len = name.size();
+
+		if (len < 3) assert(!"name should contain at least 3 symbols");
+        
+		for (size_t i = 0; i < len; i++)
+			if (!((name[i] >= 65 && name[i] <= 90) || (name[i] >= 97 && name[i] <= 122)))
+				assert(!"name can only contain letters");
+		
+		if (_name != nullptr) delete _name;
+		_name = new string(name);
+
+	}
+
+	void SetSurname(string surname)
+	{
+		int len = surname.size();
+
+		if (len < 3) assert(!"surname should contain at least 3 symbols");
+
+		for (size_t i = 0; i < len; i++)
+			if (!((surname[i] >= 65 && surname[i] <= 90) || (surname[i] >= 97 && surname[i] <= 122)))
+				assert(!"surname can only contain letters");
+
+		if (_surname != nullptr) delete _surname;
+		_surname = new string(surname);
+
+	}
+
+	void SetYear(int year)
+	{
+		if (year < 0) assert(!"year can not be negative");
+       
+		_birth_year = year;
+	}
+
+	string GetName() { return *_name; }
+	string GetSurname() { return *_surname; }
+	int GetBirthYear() { return _birth_year; }
+
+	void print()
+	{
+		cout << endl << endl;
+		cout << "Name: " << (_name != NULL ? *_name : "NULL") << endl;
+		cout << "Surname: " << (_surname != NULL ? *_surname : "NULL") << endl;
+		cout << "Birth year: " << _birth_year << endl;
+	}
+
+	int CalculateAge()
+	{
+		return (2023 - _birth_year);
+	}
+
+	~GrandMother()
+	{
+		if (_name != nullptr)
+		{
+			delete _name;
+			_name = nullptr;
+		}
+
+		if (_surname != nullptr)
+		{
+			delete _surname;
+			_surname = nullptr;
+		}
+	}
+};
+
+class Mother:public GrandMother
+{
+public:
+	string* _city;
+
+	Mother(string name, string surname, int year,string city):GrandMother(name,surname,year)
+	{
+		SetCity(city);
+	}
+
+	void SetCity(string city)
+	{
+		int len = city.size();
+
+		if (len < 3) assert(!"city name must contain at least 3 symbols");
+
+		for (size_t i = 0; i < len; i++)
+			if (!((city[i] >= 65 && city[i] <= 90) || (city[i] >= 97 && city[i] <= 122)))
+				assert(!"name can only contain letters");
+
+		if (_city != nullptr) delete _city;
+		_city = new string(city);
+	}
+
+	string GetCity() { return *_city; }
+
+	void print()
+	{
+		GrandMother::print();
+		cout << "Birth city: " << *_city << endl;
+	}
+
+	void GoToWork(bool answer)
+	{
+		if (answer)
+			cout << "I go to work" << endl;
+		else
+			cout << "I dont go to work" << endl;
+	}
+
+	~Mother()
+	{
+		if (_city != nullptr)
+		{
+			delete _city;
+			_city = nullptr;
+		}
+
+	}
+};
+
+class Daughter: public Mother
+{
+public:
+	string* _school;
+
+	Daughter(string name, string surname, int year, string city,string school):Mother(name,surname,year,city)
+	{
+		SetSchool(school);
+	}
+
+	void SetSchool(string school)
+	{
+		int len = school.size();
+
+		if (len < 5) assert(!"school name must contain at least 5 symbols");
+
+		if (_school != nullptr) delete _school;
+		_school = new string(school);
+	}
+
+	string GetSchool() { return *_school; }
+
+	void print()
+	{
+		Mother::print();
+		cout << "School: " << (_school != nullptr ? *_school : "NULL") << endl;
+	}
+
+	void GoToSchool()
+	{
+		cout << "I go to school" << endl;
+	}
+
+	~Daughter()
+	{
+		if (_school != nullptr)
+		{
+			delete _school;
+			_school = nullptr;
+		}
+	}
+};
+
+int main()
+{
+	//GrandMother gm("Elizabeth", "Puth", 1948);
+	//gm.print();
+	//cout << "age: " << gm.CalculateAge();
+
+	//Mother m("Ann", "Puth", 1972, "Ganja");
+	//m.print();
+	//cout << "age: " << m.CalculateAge() << endl;
+	//m.GoToWork(true);
+
+	//Daughter d("Zibeyda", "Musayeva", 2003, "Ganja", "No 25");
+	//d.print();
+	//cout << "age: " << d.CalculateAge() << endl;
+	//d.GoToSchool();
+}
